@@ -61,7 +61,13 @@ async def _handle_message(message: dict, metadata: dict):
 
     logger.info(f"Message from {phone_number} | type: {message_type} | id: {wa_message_id}")
 
-    # TODO: Route to flow handler (Phase 3+)
+    # Mark message as read
+    from helpers.whatsapp_client import mark_as_read, send_text
+    mark_as_read(wa_message_id)
+
+    # TODO: Route to flow handler (Phase 3)
+    # Temporary echo reply for testing Phase 2
+    await send_text(phone_number, f"✅ Bot received your message! (Phase 2 test)")
 
 
 async def _handle_status_update(status: dict):
