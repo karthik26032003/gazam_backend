@@ -1,6 +1,8 @@
+import logging
 from fastapi import FastAPI
 from routers.webhook import router as webhook_router
 
+logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(title="Gazam WhatsApp Bot")
 
