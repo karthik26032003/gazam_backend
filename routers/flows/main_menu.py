@@ -2,12 +2,17 @@ from helpers.whatsapp_client import send_button, send_list, send_text
 from helpers.session import set_session, update_session
 
 WELCOME_MSG = (
-    "Welcome to Gazam Associates! 🏠\n\n"
-    "India's trusted real estate platform.\n\n"
-    "Please select your preferred language:"
+    "👋 Welcome to *Gazam Associates!*\n\n"
+    "🏠 Hyderabad's trusted real estate platform — buying, selling, renting & loans, all in one place.\n\n"
+    "─────────────────────\n"
+    "🌐 Please select your language to get started:"
 )
 
-MAIN_MENU_BODY = "How can we help you today?\n\nChoose an option from the menu below 👇"
+MAIN_MENU_BODY = (
+    "Great! What are you looking for today? 😊\n\n"
+    "We're here to help you with properties, loans & more.\n\n"
+    "👇 Tap *View Options* to explore:"
+)
 
 
 async def send_language_selection(phone: str):
@@ -27,27 +32,27 @@ async def send_main_menu(phone: str):
                 {
                     "id": "menu_find",
                     "title": "🔍 Find Property",
-                    "description": "Browse listings by location, budget & type"
+                    "description": "Flats, villas, plots & more near you"
                 },
                 {
                     "id": "menu_post",
                     "title": "📋 Post Property",
-                    "description": "List your property for sale or rent"
+                    "description": "Sell or rent your property for free"
                 },
                 {
                     "id": "menu_loan",
                     "title": "💰 Loan Services",
-                    "description": "Home loans, EMI calculator & more"
+                    "description": "Best rates on home & property loans"
                 },
                 {
                     "id": "menu_agent",
                     "title": "🤝 Talk to Agent",
-                    "description": "Connect with a verified real estate agent"
+                    "description": "Get expert help from a verified agent"
                 },
                 {
                     "id": "menu_support",
                     "title": "💬 Support",
-                    "description": "Help & frequently asked questions"
+                    "description": "Questions? We're here to help 24/7"
                 },
             ]
         }
@@ -55,9 +60,9 @@ async def send_main_menu(phone: str):
     await send_list(
         to=phone,
         body=MAIN_MENU_BODY,
-        button_label="View Options",
+        button_label="🏠 Explore Now",
         sections=sections,
-        header="Gazam Associates"
+        header="🏢 Gazam Associates"
     )
     update_session(phone, {"flow": "main_menu", "step": "menu"})
 
