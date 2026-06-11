@@ -18,6 +18,7 @@ class LeadType(str, enum.Enum):
     seller = "seller"
     agent = "agent"
     loan = "loan"
+    support = "support"
 
 
 class LeadStatus(str, enum.Enum):

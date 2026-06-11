@@ -28,6 +28,15 @@ from routers.flows.loan import (
     handle_employment_type,
     handle_monthly_income,
 )
+from routers.flows.agent import (
+    start_agent_flow,
+    handle_help_type,
+    handle_agent_note,
+)
+from routers.flows.support import (
+    start_support_flow,
+    handle_issue,
+)
 
 
 async def route_message(phone: str, message: dict):
@@ -59,6 +68,16 @@ async def route_message(phone: str, message: dict):
                 return
             if step == "monthly_income":
                 await handle_monthly_income(phone, text)
+                return
+
+        if flow == "agent":
+            if step == "agent_note":
+                await handle_agent_note(phone, text)
+                return
+
+        if flow == "support":
+            if step == "issue":
+                await handle_issue(phone, text)
                 return
 
         await send_main_menu(phone)
@@ -110,7 +129,25 @@ async def route_message(phone: str, message: dict):
                     if button_id == "btn_0":
                         await send_main_menu(phone)
                     elif button_id == "btn_1":
-                        from routers.flows.support import start_support_flow
+                        await start_agent_flow(phone)
+                    return
+
+            if flow == "agent":
+                if step == "help_type":
+                    await handle_help_type(phone, button_id)
+                    return
+                if step == "post_agent":
+                    if button_id == "btn_0":
+                        await send_main_menu(phone)
+                    elif button_id == "btn_1":
+                        await start_support_flow(phone)
+                    return
+
+            if flow == "support":
+                if step == "post_support":
+                    if button_id == "btn_0":
+                        await send_main_menu(phone)
+                    elif button_id == "btn_1":
                         await start_support_flow(phone)
                     return
 
@@ -126,6 +163,10 @@ async def route_message(phone: str, message: dict):
                     await start_seller_flow(phone)
                 elif row_id == "menu_loan":
                     await start_loan_flow(phone)
+                elif row_id == "menu_agent":
+                    await start_agent_flow(phone)
+                elif row_id == "menu_support":
+                    await start_support_flow(phone)
                 else:
                     await handle_menu_selection(phone, row_id)
                 return
