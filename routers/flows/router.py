@@ -80,7 +80,23 @@ async def route_message(phone: str, message: dict):
                 await handle_issue(phone, text)
                 return
 
-        await send_main_menu(phone)
+        # "menu" keyword → always show main menu
+        if text.lower() in ("menu", "hi", "hello", "start", "help"):
+            await send_main_menu(phone)
+            return
+
+        # Unhandled text → AI response
+        from helpers.ai_client import get_ai_response
+        from helpers.session import get_chat_history, append_chat_history
+        from helpers.whatsapp_client import send_text
+
+        history = get_chat_history(phone)
+        append_chat_history(phone, "user", text)
+        reply = await get_ai_response(phone, text, history)
+        append_chat_history(phone, "assistant", reply)
+
+        footer = "\n\n_Type *menu* anytime to explore our services_"
+        await send_text(phone, reply + footer)
         return
 
     # ── Interactive messages ──────────────────────────────────────────────────

@@ -18,8 +18,11 @@ class Settings(BaseSettings):
     # Redis
     redis_url: str
 
-    # Anthropic
+    # Anthropic (kept for future use)
     anthropic_api_key: str = ""
+
+    # Local LLM (Gemma via vLLM, OpenAI-compatible)
+    local_llm_url: str = "http://164.52.198.104:8049/v1"
 
     # Gazam External API
     gazam_api_base_url: str = ""
