@@ -21,6 +21,13 @@ from routers.flows.seller import (
     handle_price,
     handle_description,
 )
+from routers.flows.loan import (
+    start_loan_flow,
+    handle_loan_type,
+    handle_loan_amount,
+    handle_employment_type,
+    handle_monthly_income,
+)
 
 
 async def route_message(phone: str, message: dict):
@@ -44,6 +51,14 @@ async def route_message(phone: str, message: dict):
                 return
             if step == "description":
                 await handle_description(phone, text)
+                return
+
+        if flow == "loan":
+            if step == "loan_amount":
+                await handle_loan_amount(phone, text)
+                return
+            if step == "monthly_income":
+                await handle_monthly_income(phone, text)
                 return
 
         await send_main_menu(phone)
@@ -84,6 +99,21 @@ async def route_message(phone: str, message: dict):
                         await start_seller_flow(phone)
                     return
 
+            if flow == "loan":
+                if step == "loan_type":
+                    await handle_loan_type(phone, button_id)
+                    return
+                if step == "employment_type":
+                    await handle_employment_type(phone, button_id)
+                    return
+                if step == "post_loan":
+                    if button_id == "btn_0":
+                        await send_main_menu(phone)
+                    elif button_id == "btn_1":
+                        from routers.flows.support import start_support_flow
+                        await start_support_flow(phone)
+                    return
+
         # ── List replies ──────────────────────────────────────────────────────
         elif interactive_type == "list_reply":
             row_id = interactive["list_reply"]["id"]
@@ -94,6 +124,8 @@ async def route_message(phone: str, message: dict):
                     await start_buyer_flow(phone)
                 elif row_id == "menu_post":
                     await start_seller_flow(phone)
+                elif row_id == "menu_loan":
+                    await start_loan_flow(phone)
                 else:
                     await handle_menu_selection(phone, row_id)
                 return
