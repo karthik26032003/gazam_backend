@@ -146,21 +146,22 @@ async def send_mock_results(phone: str):
     sub_type = session.get("sub_type_label", "Property")
     budget = session.get("budget_label", "")
 
+    # WhatsApp enforces 24-char max on list row titles
     mock_properties = [
         {
             "id": "prop_1",
-            "title": f"3BHK {sub_type} – {location}",
-            "description": f"1450 sqft • Ready to move • {budget}"
+            "title": "3BHK – Property #1",
+            "description": f"1450 sqft, Ready to move | {budget}"
         },
         {
             "id": "prop_2",
-            "title": f"2BHK {sub_type} – {location}",
-            "description": f"1100 sqft • New launch • {budget}"
+            "title": "2BHK – Property #2",
+            "description": f"1100 sqft, New launch | {budget}"
         },
         {
             "id": "prop_3",
-            "title": f"Premium {sub_type} – {location}",
-            "description": f"1800 sqft • Gated community • {budget}"
+            "title": "Premium – Property #3",
+            "description": f"1800 sqft, Gated community | {budget}"
         },
     ]
 
