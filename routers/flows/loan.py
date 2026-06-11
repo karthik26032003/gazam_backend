@@ -4,7 +4,7 @@ from helpers.session import update_session, get_session
 LOAN_TYPES = {
     "btn_0": "Home Loan",
     "btn_1": "Loan Against Property",
-    "btn_2": "Construction Loan",
+    "btn_2": "Build / Construction Loan",
 }
 
 EMPLOYMENT_TYPES = {
@@ -25,7 +25,7 @@ async def start_loan_flow(phone: str):
             "• Minimum paperwork\n\n"
             "What type of loan are you looking for?"
         ),
-        buttons=["🏠 Home Loan", "🏦 Loan Agst. Property", "🏗 Construction Loan"],
+        buttons=["🏠 Home Loan", "🏦 Against Property", "🏗 Build Loan"],
         header="💰 Loan Services"
     )
     update_session(phone, {"flow": "loan", "step": "loan_type"})
@@ -58,7 +58,7 @@ async def handle_loan_amount(phone: str, text: str):
             f"Got it! *{text}* noted 💰\n\n"
             "👔 What is your employment type?"
         ),
-        buttons=["💼 Salaried", "🧑‍💼 Self-Employed", "🏢 Business Owner"],
+        buttons=["💼 Salaried", "👔 Self-Employed", "🏢 Business Owner"],
         header="Employment Details"
     )
     update_session(phone, {"step": "employment_type"})
